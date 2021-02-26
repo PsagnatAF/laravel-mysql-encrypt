@@ -47,3 +47,18 @@ if (! function_exists('db_decrypt_string')) {
         return 'AES_DECRYPT(`'.$column.'`, "'.config("mysql-encrypt.key").'") '.$operator.' "'.$value.'" COLLATE utf8mb4_general_ci';
     }
 }
+
+if (! function_exists('db_decrypt_convert')) {
+    /**
+     * Decrpyt value.
+     *
+     * @param  string  $column
+     * @param  string  $value
+     * @param  string  $operator
+     * @return string
+     */
+    function db_decrypt_convert($column, $value, $operator = 'LIKE')
+    {
+        return "CONVERT(AES_DECRYPT(`".$column."`, '".config("mysql-encrypt.key")."')  USING utf8) ".$operator.' "'.$value.'"';
+    }
+}
